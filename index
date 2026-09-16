@@ -1,0 +1,2823 @@
+<!-- Output: html -->
+<!-- Filename: 五彩堂_美容室予約サイトデモ -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="架空の完全個室型美容室「五彩堂」のデモサイト。5人のスタイリストから、得意な技術と接客の相性で選べます。">
+  <meta name="theme-color" content="#486455">
+  <title>五彩堂 ― GOSAIDO｜完全個室ヘアサロン【デモ】</title>
+  <style>
+    :root {
+      --bg: #f7f5f1;
+      --paper: #fff;
+      --ink: #292724;
+      --muted: #66615b;
+      --accent: #486455;
+      --accent-dark: #304a3c;
+      --accent-light: #edf2ed;
+      --line: #e5e0d8;
+      --warm: #f2e9df;
+      --radius: 18px;
+      --shadow: 0 12px 36px rgb(41 39 36 / 6%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 128px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      font-size: 15px;
+      line-height: 1.85;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button,
+    a,
+    input,
+    select,
+    textarea {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button,
+    select {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-underline-offset: 4px;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid #9c663e;
+      outline-offset: 4px;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: clamp(25px, 3vw, 35px);
+      font-weight: 600;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 40px));
+      margin-inline: auto;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: -100px;
+      left: 16px;
+      z-index: 100;
+      padding: 10px 18px;
+      background: white;
+    }
+
+    .skip-link:focus {
+      top: 10px;
+    }
+
+    .demo-banner {
+      padding: 7px 20px;
+      background: var(--accent-dark);
+      color: white;
+      text-align: center;
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgb(247 245 241 / 97%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .header-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      color: var(--accent);
+      font-family: serif;
+      font-size: 23px;
+    }
+
+    .brand-name {
+      display: block;
+      font-family: serif;
+      font-size: 25px;
+      letter-spacing: .16em;
+      line-height: 1.2;
+    }
+
+    .brand-sub {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .18em;
+    }
+
+    .header-note {
+      margin-left: auto;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 30px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+    }
+
+    .nav a {
+      flex-shrink: 0;
+      padding: 10px 0 13px;
+      text-decoration: none;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .nav a:hover {
+      color: var(--accent);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 11px 20px;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      background: var(--accent);
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background .15s, transform .15s;
+    }
+
+    .button:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+    }
+
+    .button.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .button.secondary:hover {
+      background: var(--accent-light);
+    }
+
+    .button.full {
+      width: 100%;
+    }
+
+    .button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .eyebrow {
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .2em;
+    }
+
+    .muted,
+    .small {
+      color: var(--muted);
+    }
+
+    .small {
+      font-size: 12px;
+    }
+
+    .hero {
+      padding: 40px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      margin-bottom: 20px;
+      font-family: serif;
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 500;
+      line-height: 1.65;
+      letter-spacing: .04em;
+    }
+
+    .hero-copy {
+      max-width: 490px;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .media {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      background: var(--warm);
+    }
+
+    .media img {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .media-fallback {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px;
+      text-align: center;
+      background:
+        linear-gradient(135deg, rgb(255 255 255 / 60%), transparent 60%),
+        var(--room-color, #e9e2d8);
+      color: #4e514a;
+    }
+
+    .media-fallback strong {
+      font-family: serif;
+      font-size: 24px;
+      font-weight: 500;
+      letter-spacing: .12em;
+    }
+
+    .media-fallback span {
+      font-size: 11px;
+      letter-spacing: .12em;
+    }
+
+    .hero-media {
+      min-height: 390px;
+      border-radius: 80px 18px 18px 18px;
+    }
+
+    .hero-caption {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      left: 14px;
+      z-index: 2;
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: rgb(255 255 255 / 90%);
+      font-size: 12px;
+    }
+
+    .quick-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+      margin-top: 28px;
+      padding: 17px 22px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+      font-size: 13px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 5px;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      font-size: 11px;
+    }
+
+    .section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .section-heading h2 {
+      margin-bottom: 0;
+    }
+
+    .section-lead {
+      max-width: 760px;
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+
+    .three-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: white;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .feature-number {
+      display: block;
+      margin-bottom: 15px;
+      color: var(--accent);
+      font-family: serif;
+      font-size: 32px;
+    }
+
+    .feature-card p:last-child {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .intro-note {
+      margin-top: 22px;
+      padding: 22px 26px;
+      border-left: 3px solid var(--accent);
+      background: var(--accent-light);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .intro-note p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 24px;
+    }
+
+    .filter {
+      padding: 8px 15px;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      background: white;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .filter[aria-pressed="true"] {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+    }
+
+    .menu-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .menu-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .menu-card {
+      padding: 24px;
+    }
+
+    .menu-card h3 {
+      margin: 12px 0 8px;
+    }
+
+    .menu-card p {
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .menu-bottom {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .price {
+      font-size: 25px;
+      font-weight: 650;
+      letter-spacing: -.03em;
+      line-height: 1.4;
+    }
+
+    .price small {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 140px;
+    }
+
+    .sidebar h3 {
+      font-size: 17px;
+    }
+
+    .sidebar ul {
+      padding-left: 20px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .coupon-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .coupon {
+      display: flex;
+      flex-direction: column;
+      padding: 22px;
+      border-top: 4px solid var(--accent);
+    }
+
+    .coupon h3 {
+      margin-top: 12px;
+      font-size: 17px;
+    }
+
+    .coupon .price {
+      margin-top: auto;
+      margin-bottom: 15px;
+    }
+
+    .old-price {
+      color: var(--muted);
+      text-decoration: line-through;
+      font-size: 13px;
+    }
+
+    .staff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .staff-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .staff-photo {
+      aspect-ratio: 3 / 4;
+    }
+
+    .staff-photo img {
+      object-fit: contain;
+    }
+
+    .staff-card .card-body {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 23px;
+    }
+
+    .staff-role {
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .staff-name {
+      margin-bottom: 4px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .staff-en {
+      margin-bottom: 15px;
+      font-size: 10px;
+      letter-spacing: .14em;
+      color: var(--muted);
+    }
+
+    .staff-catch {
+      min-height: 48px;
+      margin: 14px 0 10px;
+      color: var(--accent-dark);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .staff-description {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .staff-detail {
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+
+    .staff-detail summary {
+      cursor: pointer;
+      color: var(--accent);
+    }
+
+    .staff-detail dl {
+      margin: 12px 0 0;
+    }
+
+    .staff-detail dt {
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    .staff-detail dd {
+      margin: 3px 0 0;
+      color: var(--muted);
+    }
+
+    .staff-card .button {
+      margin-top: auto;
+    }
+
+    .style-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    .style-photo {
+      aspect-ratio: 4 / 5;
+    }
+
+    .style-card .card-body {
+      padding: 14px;
+    }
+
+    .style-card h3 {
+      margin-bottom: 7px;
+      font-size: 13px;
+    }
+
+    .style-card p {
+      margin: 0;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .review-summary {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 24px;
+      padding: 22px 26px;
+      background: var(--warm);
+      border-radius: 12px;
+    }
+
+    .review-score {
+      font-size: 36px;
+      font-weight: 650;
+    }
+
+    .stars {
+      color: #926c39;
+      letter-spacing: .12em;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .review-card {
+      padding: 24px;
+    }
+
+    .review-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .review-card h3 {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .review-card blockquote {
+      margin: 12px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .access-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 32px;
+    }
+
+    .info-list {
+      margin: 0;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    .info-row dt {
+      color: var(--muted);
+    }
+
+    .info-row dd {
+      margin: 0;
+    }
+
+    .map-demo {
+      display: grid;
+      align-content: center;
+      gap: 20px;
+      min-height: 320px;
+      padding: 30px;
+      background:
+        linear-gradient(90deg, transparent 45%, white 45%, white 55%, transparent 55%),
+        #e8e9e1;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .map-station,
+    .map-salon {
+      justify-self: center;
+      padding: 12px 22px;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      background: white;
+      font-weight: 600;
+    }
+
+    .map-salon {
+      background: var(--accent);
+      color: white;
+    }
+
+    .map-demo p {
+      margin: 0;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .faq-list details {
+      padding: 18px 22px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .faq-list summary {
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .faq-list p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer {
+      padding: 44px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .footer-disclaimer {
+      max-width: 650px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .mobile-bar {
+      display: none;
+    }
+
+    dialog {
+      width: min(760px, calc(100% - 24px));
+      max-height: calc(100dvh - 32px);
+      padding: 0;
+      border: 0;
+      border-radius: 18px;
+      background: var(--bg);
+      color: var(--ink);
+      box-shadow: 0 25px 100px rgb(0 0 0 / 25%);
+    }
+
+    dialog::backdrop {
+      background: rgb(25 34 28 / 62%);
+    }
+
+    .dialog-header {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      background: var(--bg);
+    }
+
+    .dialog-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .close-button {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: white;
+      font-size: 23px;
+    }
+
+    .dialog-body {
+      padding: 24px;
+    }
+
+    .notice {
+      padding: 14px 17px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      font-size: 13px;
+    }
+
+    fieldset {
+      min-width: 0;
+      margin: 26px 0;
+      padding: 0;
+      border: 0;
+    }
+
+    legend {
+      width: 100%;
+      margin-bottom: 15px;
+      font-weight: 700;
+      font-size: 17px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 13px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      border: 1px solid #c8c4bd;
+      border-radius: 8px;
+      background: white;
+      color: var(--ink);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .field.wide {
+      grid-column: 1 / -1;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: start;
+      gap: 10px;
+      padding: 10px 0;
+      font-size: 13px;
+    }
+
+    .check-row input {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      margin-top: 4px;
+      accent-color: var(--accent);
+    }
+
+    .slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      margin-top: 15px;
+    }
+
+    .slot {
+      min-height: 44px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .slot[aria-pressed="true"] {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .slot-status {
+      margin: 12px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .booking-total {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      padding: 17px 24px;
+      border-top: 1px solid var(--line);
+      background: white;
+    }
+
+    .total-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .total-line strong {
+      color: var(--accent-dark);
+      font-size: 23px;
+    }
+
+    .error {
+      margin: 12px 0 0;
+      color: #a2372b;
+      font-size: 13px;
+    }
+
+    .confirm-list {
+      margin: 24px 0;
+    }
+
+    .confirm-list .info-row {
+      grid-template-columns: 120px 1fr;
+    }
+
+    .confirm-list dd {
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+    }
+
+    .success-mark {
+      display: grid;
+      place-items: center;
+      width: 68px;
+      height: 68px;
+      margin: 15px auto 24px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 50%;
+      font-size: 30px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 1020px) {
+      .staff-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .style-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .menu-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .hero h1 {
+        font-size: 35px;
+      }
+
+      .header-note {
+        display: none;
+      }
+    }
+
+    @media (max-width: 700px) {
+      html {
+        scroll-padding-top: 122px;
+      }
+
+      body {
+        padding-bottom: 82px;
+      }
+
+      .container {
+        width: min(100% - 28px, 1160px);
+      }
+
+      .header-main {
+        min-height: 68px;
+      }
+
+      .header-main > .button {
+        min-height: 38px;
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .brand-name {
+        font-size: 22px;
+      }
+
+      .nav {
+        gap: 24px;
+      }
+
+      .hero {
+        padding-top: 26px;
+      }
+
+      .hero-grid,
+      .three-grid,
+      .coupon-grid,
+      .staff-grid,
+      .review-grid,
+      .access-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-grid {
+        gap: 25px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .hero-media {
+        min-height: 290px;
+        border-top-left-radius: 55px;
+      }
+
+      .section {
+        padding: 44px 0;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-heading > p {
+        margin: 10px 0 0;
+      }
+
+      .style-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .staff-photo {
+        max-height: 540px;
+      }
+
+      .staff-catch {
+        min-height: auto;
+      }
+
+      .quick-info {
+        padding: 16px;
+        gap: 9px 18px;
+      }
+
+      .menu-card {
+        padding: 20px;
+      }
+
+      .menu-bottom {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .mobile-bar {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 25;
+        display: grid;
+        grid-template-columns: 1fr 1.3fr;
+        gap: 10px;
+        padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+        border-top: 1px solid var(--line);
+        background: rgb(255 255 255 / 97%);
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .slots {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .dialog-body {
+        padding: 18px;
+      }
+
+      .dialog-header,
+      .booking-total {
+        padding: 15px 18px;
+      }
+
+      .total-line {
+        gap: 10px;
+      }
+
+      .total-line strong {
+        font-size: 20px;
+      }
+
+      .total-line .button {
+        padding: 10px 12px;
+        font-size: 12px;
+      }
+
+      .info-row,
+      .confirm-list .info-row {
+        grid-template-columns: 95px 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">本文へ移動</a>
+
+  <div class="demo-banner">
+    架空の美容室のデモサイトです。実際の予約・決済は行われません。
+  </div>
+
+  <header class="site-header">
+    <div class="container header-main">
+      <a class="brand" href="#top" aria-label="五彩堂 トップ">
+        <span class="brand-mark" aria-hidden="true">五</span>
+        <span>
+          <span class="brand-name">五彩堂</span>
+          <span class="brand-sub">GOSAIDO / PRIVATE HAIR SALON</span>
+        </span>
+      </a>
+      <span class="header-note">完全個室 · マンツーマン · 指名料込み</span>
+      <button class="button" type="button" data-book>
+        空席を確認する
+      </button>
+    </div>
+    <nav class="container nav" aria-label="メインメニュー">
+      <a href="#top">サロントップ</a>
+      <a href="#concept">こだわり</a>
+      <a href="#menus">クーポン・メニュー</a>
+      <a href="#stylists">スタイリスト</a>
+      <a href="#styles">ヘアスタイル</a>
+      <a href="#reviews">口コミ</a>
+      <a href="#access">アクセス</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero container" id="top" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">FIVE PERSONALITIES, YOUR PRIVATE TIME.</p>
+          <h1 id="hero-title">
+            髪を切る時間にも、<br>
+            自分の好みが<br>
+            あっていい。
+          </h1>
+          <p class="hero-copy">
+            扉を閉めたら、そこはあなたのための美容室。<br>
+            シャンプーから仕上げまで、移動のない完全個室。<br>
+            得意な技術も、話し方も違う5人がお迎えします。
+          </p>
+          <div class="tag-list" aria-label="サロンの特徴">
+            <span class="tag">完全個室</span>
+            <span class="tag">メンズ歓迎</span>
+            <span class="tag">会話の希望を選べる</span>
+          </div>
+          <div class="actions">
+            <a class="button" href="#stylists">5人のスタイリストを見る</a>
+            <a class="button secondary" href="#menus">メニューから選ぶ</a>
+          </div>
+        </div>
+        <div class="media hero-media">
+          <div class="media-fallback" aria-hidden="true">
+            <strong>五彩堂</strong>
+            <span>PRIVATE ROOM / SALON PHOTO</span>
+            <span>店内写真を配置するエリア</span>
+          </div>
+          <img
+            src="assets/salon-main.webp"
+            alt="セット面とシャンプー台を備えた、落ち着いた色合いの完全個室"
+            fetchpriority="high"
+          >
+          <div class="hero-caption">
+            5つの個室、5つの個性。施術中の担当交代は原則ありません。
+          </div>
+        </div>
+      </div>
+      <div class="quick-info">
+        <span>青葉台南駅 徒歩5分〈架空駅〉</span>
+        <span>10:00〜20:00 ／ 火曜定休</span>
+        <span>通常カットコース ¥8,800〜</span>
+        <span>完全予約制・全5室</span>
+      </div>
+    </section>
+
+    <section class="section" id="concept">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">OUR CONCEPT</p>
+            <h2>「どんな時間にしたい？」から、選べる。</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          じっくり相談したい。静かに過ごしたい。好きな話で盛り上がりたい。
+          五彩堂は、仕上がりだけでなく過ごし方にも寄り添う美容室です。
+          すべてのコースを、性別に関係なくお選びいただけます。
+        </p>
+        <div class="three-grid">
+          <article class="card feature-card card-body">
+            <span class="feature-number">01</span>
+            <h3>シャンプーも、<br>同じお部屋で。</h3>
+            <p>
+              すべての個室にシャンプー台を設置。
+              周囲の視線を気にせず、カウンセリングから仕上げまで過ごせます。
+            </p>
+          </article>
+          <article class="card feature-card card-body">
+            <span class="feature-number">02</span>
+            <h3>技術と接客、<br>どちらの相性も大切に。</h3>
+            <p>
+              似合わせ、スパ、ショート、カラー、顔周り。
+              得意分野に加えて、会話や説明のスタイルからも選べます。
+            </p>
+          </article>
+          <article class="card feature-card card-body">
+            <span class="feature-number">03</span>
+            <h3>次回の担当が、<br>変わっても大丈夫。</h3>
+            <p>
+              今回はカット、次回はカラーの相談。
+              そのときの目的に合うスタッフを、サロン全体でご提案します。
+            </p>
+          </article>
+        </div>
+        <div class="intro-note">
+          <strong>初めてで、誰を選べばよいかわからない方へ。</strong>
+          <p>
+            「初回担当おまかせ」をお選びください。
+            店長・白石怜奈がヒアリングを担当し、今回の施術と次回以降の選び方をご案内します。
+            デモでは怜奈の「印象設計カット」で受け付けます。
+          </p>
+          <div class="actions">
+            <button class="button secondary" type="button" data-book="ST01" data-unassigned="true">
+              初回担当おまかせで相談
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="menus">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MENU & COUPON</p>
+            <h2>目的に合わせて、コースを選ぶ。</h2>
+          </div>
+          <p class="small">すべて税込・指名料込み</p>
+        </div>
+
+        <div class="filter-row" role="group" aria-label="メニューを担当者で絞り込む">
+          <button class="filter" type="button" data-filter="all" aria-pressed="true">すべて</button>
+          <button class="filter" type="button" data-filter="ST01" aria-pressed="false">似合わせ・怜奈</button>
+          <button class="filter" type="button" data-filter="ST02" aria-pressed="false">スパ・こはる</button>
+          <button class="filter" type="button" data-filter="ST03" aria-pressed="false">ショート・真央</button>
+          <button class="filter" type="button" data-filter="ST04" aria-pressed="false">カラー・璃子</button>
+          <button class="filter" type="button" data-filter="ST05" aria-pressed="false">顔周り・結衣</button>
+        </div>
+
+        <div class="menu-layout">
+          <div id="menu-list" class="menu-list"></div>
+          <aside class="card card-body sidebar" aria-labelledby="menu-guide-title">
+            <p class="eyebrow">BEFORE BOOKING</p>
+            <h3 id="menu-guide-title">料金についてのお約束</h3>
+            <ul>
+              <li>カットコースはシャンプー・ブロー込み。</li>
+              <li>性別ではなく、施術内容と時間で料金を設定。</li>
+              <li>追加施術は、料金と必要性をご説明してから。</li>
+              <li>追加しない場合の仕上がりや代替案もご案内。</li>
+            </ul>
+            <p class="small">
+              カラーは肩までの長さが基本料金。
+              肩下〜胸上は＋¥1,100、胸より長い場合は＋¥2,200。
+              ブリーチは別料金・事前相談制です。
+            </p>
+          </aside>
+        </div>
+
+        <div class="section-heading" style="margin-top: 44px;">
+          <div>
+            <p class="eyebrow">FIRST VISIT</p>
+            <h2>初めての方へ。</h2>
+          </div>
+        </div>
+        <div class="coupon-grid" id="coupon-list"></div>
+        <p class="small" style="margin-top: 18px;">
+          五彩堂への初回来店が対象。他クーポンとの併用不可。
+          オプション・長さ料金は割引対象外。こはるのクーポンは祝日を除く平日限定。
+          有効期間：デモ掲載期間中。実際に利用できるクーポンではありません。
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="stylists">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">MEET YOUR STYLIST</p>
+            <h2>5人それぞれの、得意なこと。</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          技術のこだわりも、話すテンポもそれぞれ。
+          はじめは雰囲気で選んでも大丈夫です。
+          すべてのスタッフが、会話を控えて過ごしたいというご希望にも対応します。
+        </p>
+        <div class="staff-grid" id="staff-list"></div>
+        <p class="small" style="margin-top: 20px;">
+          スタッフ紹介写真の設定：夏の営業前に、エリアマネージャーがスマートフォンで撮影。
+          飾りすぎない、普段の仕事着での全身写真を掲載する構成です。
+          未配置の画像はプレースホルダーで表示しています。
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="styles">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">HAIR STYLE</p>
+            <h2>次の髪型の、ヒントに。</h2>
+          </div>
+        </div>
+        <p class="section-lead">
+          スタイルは架空の施術イメージです。
+          必要な施術やブリーチの可否は、髪の履歴と状態を確認してご提案します。
+        </p>
+        <div class="style-grid" id="style-list"></div>
+        <p class="small" style="margin-top: 16px;">
+          画像配置後も「生成画像によるスタイルイメージ」として掲載し、
+          実在のお客様の施術実績とは区別します。
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">SAMPLE REVIEWS</p>
+            <h2>口コミ〈デモ〉</h2>
+          </div>
+        </div>
+        <div class="review-summary">
+          <span class="review-score">4.8 <span class="small">/ 5.0</span></span>
+          <span class="stars" aria-label="サンプル平均評価4.8点">★★★★★</span>
+          <span class="small">サンプル5件の平均。実際のお客様の評価ではありません。</span>
+        </div>
+        <div class="review-grid" id="review-list"></div>
+      </div>
+    </section>
+
+    <section class="section" id="access">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">SALON INFORMATION</p>
+            <h2>店舗情報・アクセス</h2>
+          </div>
+        </div>
+        <div class="access-grid">
+          <dl class="info-list">
+            <div class="info-row">
+              <dt>店舗名</dt>
+              <dd>五彩堂 ― GOSAIDO</dd>
+            </div>
+            <div class="info-row">
+              <dt>住所</dt>
+              <dd>東京都○○区青葉台南2-8-5 五彩堂ビル1F<br>〈架空住所〉</dd>
+            </div>
+            <div class="info-row">
+              <dt>アクセス</dt>
+              <dd>青葉台南駅から徒歩5分〈架空駅〉</dd>
+            </div>
+            <div class="info-row">
+              <dt>営業時間</dt>
+              <dd>10:00〜20:00／毎週火曜定休<br>最終受付は施術時間により異なります。</dd>
+            </div>
+            <div class="info-row">
+              <dt>設備</dt>
+              <dd>完全個室5室／各室シャンプー台／Wi-Fi／充電設備／全室禁煙</dd>
+            </div>
+            <div class="info-row">
+              <dt>スタッフ</dt>
+              <dd>スタイリスト5名／アシスタントなし／マンツーマン対応</dd>
+            </div>
+            <div class="info-row">
+              <dt>支払い設定</dt>
+              <dd>現金・主要クレジットカード・交通系IC・QRコード決済〈架空設定〉</dd>
+            </div>
+            <div class="info-row">
+              <dt>駐車・駐輪</dt>
+              <dd>駐車場なし／駐輪3台分</dd>
+            </div>
+            <div class="info-row">
+              <dt>ご利用相談</dt>
+              <dd>同伴者・車いすでのご利用は事前相談。入口は段差なしの設定です。</dd>
+            </div>
+            <div class="info-row">
+              <dt>電話・連絡</dt>
+              <dd>デモのため受付していません。</dd>
+            </div>
+          </dl>
+          <div>
+            <div class="map-demo" role="img" aria-label="架空の案内図。青葉台南駅から徒歩5分の場所に五彩堂がある設定です。">
+              <div class="map-station">青葉台南駅〈架空〉</div>
+              <p>南口から住宅街へ<br>徒歩5分の設定</p>
+              <div class="map-salon">五彩堂 ― GOSAIDO</div>
+            </div>
+            <p class="small" style="margin-top: 12px;">
+              この図は架空の案内図です。実際の地理や経路を示しません。
+            </p>
+            <div class="intro-note">
+              <strong>お一人ずつ、余裕をもって。</strong>
+              <p>
+                掛け持ちはせず、施術後には清掃・準備の時間を確保しています。
+                遅刻により施術時間の確保が難しい場合は、内容や日時の変更をご相談する設定です。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">FAQ</p>
+            <h2>ご来店前の、気になること。</h2>
+          </div>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>男性でも利用できますか？</summary>
+            <p>
+              はい。すべてのコースを性別に関係なくご利用いただけます。
+              メンズショートやビジネスヘア、長めの髪のご相談も歓迎しています。
+            </p>
+          </details>
+          <details>
+            <summary>担当者が決められません。</summary>
+            <p>
+              初回担当おまかせをご利用ください。店長の怜奈がご希望を伺い、
+              今回の施術に加えて、次回以降に相性のよいスタッフもご提案します。
+            </p>
+          </details>
+          <details>
+            <summary>美容室での会話が苦手でも大丈夫ですか？</summary>
+            <p>
+              大丈夫です。予約時に会話の希望を選べます。
+              静かに過ごされる場合も、安全な施術に必要な確認はその都度行います。
+            </p>
+          </details>
+          <details>
+            <summary>趣味の話をしながら過ごせますか？</summary>
+            <p>
+              もちろんです。特に真央はアニメやゲームの話が好きなスタッフです。
+              ネタバレの可否や、お話ししたい内容に合わせて会話を楽しめます。
+            </p>
+          </details>
+          <details>
+            <summary>カラーの相談だけでも予約できますか？</summary>
+            <p>
+              璃子のカラーコースから「相談を先にしたい」を選択してください。
+              デモでは相談リクエストとして受け付ける画面を表示します。
+              実店舗への送信や連絡は行われません。
+            </p>
+          </details>
+          <details>
+            <summary>オプションを断っても大丈夫ですか？</summary>
+            <p>
+              はい。追加施術の目的と料金をご説明し、追加しない場合の見え方や代替案もお伝えします。
+              同意なくオプションを追加することはありません。
+            </p>
+          </details>
+          <details>
+            <summary>ヘッドスパに発毛効果はありますか？</summary>
+            <p>
+              五彩堂のヘッドスパは美容とリラクゼーションを目的とする設定です。
+              発毛や疾患の治療を目的とする施術ではありません。
+            </p>
+          </details>
+          <details>
+            <summary>担当者を変えたり、撮影を断ったりできますか？</summary>
+            <p>
+              どちらも可能です。担当者は目的に合わせて変更できます。
+              仕上がり撮影は任意で、SNSやサイトへの掲載同意も別途確認します。
+            </p>
+          </details>
+          <details>
+            <summary>変更・キャンセルはどうすればよいですか？</summary>
+            <p>
+              架空店舗の運用設定では、前日の営業時間内までの連絡を推奨しています。
+              15分以上の遅刻では施術内容や日時の変更を相談します。
+              このデモでは実際の予約もキャンセル料も発生しません。
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <span class="brand-name">五彩堂</span>
+        <p class="small" style="margin-top: 12px;">GOSAIDO / DEMONSTRATION SITE</p>
+        <a class="small" href="#top">ページの先頭へ</a>
+      </div>
+      <div class="footer-disclaimer">
+        <p>
+          このサイトは架空の美容室を題材にしたデモです。
+          店舗・人物・口コミ・空席情報は創作であり、実際の予約や決済は行われません。
+          特定の予約サービスの公式ページではありません。
+        </p>
+        <p>
+          写真は生成素材を配置する想定です。画像未配置時はプレースホルダーを表示します。
+          予約フォームの内容はサーバーに送信せず、ブラウザ内の画面表示にのみ使用します。
+          実在の個人情報は入力しないでください。
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-bar" aria-label="予約ショートカット">
+    <a class="button secondary" href="#menus">メニューを見る</a>
+    <button class="button" type="button" data-book>空席確認〈デモ〉</button>
+  </div>
+
+  <dialog id="booking-dialog" aria-labelledby="booking-title">
+    <div class="dialog-header">
+      <h2 id="booking-title">デモ予約</h2>
+      <button class="close-button" id="close-dialog" type="button" aria-label="予約画面を閉じる">×</button>
+    </div>
+
+    <div id="booking-editor">
+      <form id="booking-form">
+        <div class="dialog-body">
+          <p class="notice">
+            操作体験用のフォームです。実際の予約・送信・決済は行いません。
+            氏名や連絡先など、実在の個人情報は入力しないでください。
+          </p>
+
+          <fieldset>
+            <legend>1. コースを選ぶ</legend>
+            <div class="form-grid">
+              <label class="field wide">
+                担当・コース
+                <select id="booking-staff" required></select>
+              </label>
+
+              <label class="field">
+                来店区分
+                <select id="visit-type">
+                  <option value="new">初めて</option>
+                  <option value="return">2回目以降</option>
+                </select>
+              </label>
+
+              <label class="field">
+                クーポン
+                <select id="coupon-choice">
+                  <option value="none">通常料金</option>
+                  <option value="first">初回来店クーポンを利用</option>
+                </select>
+              </label>
+
+              <label class="field wide" id="length-field" hidden>
+                髪の長さ
+                <select id="hair-length">
+                  <option value="0">肩まで：追加なし</option>
+                  <option value="1100">肩下〜胸上：＋¥1,100</option>
+                  <option value="2200">胸より長い：＋¥2,200</option>
+                </select>
+              </label>
+            </div>
+
+            <p class="small" id="course-description" style="margin-top: 14px;"></p>
+            <div id="option-list"></div>
+
+            <label class="check-row" id="consultation-row" hidden>
+              <input id="consultation-first" type="checkbox">
+              <span>施術日時を決める前に、カラーの相談をしたい</span>
+            </label>
+
+            <p class="notice" id="consultation-notice" hidden>
+              カラーの相談またはブリーチを含むため、事前相談リクエストとして扱います。
+              料金と時間は目安で、施術予約は確定しません。
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend id="date-legend">2. 日時を選ぶ〈空席サンプル〉</legend>
+            <label class="field">
+              <span id="date-label">来店希望日</span>
+              <input id="booking-date" type="date" required>
+            </label>
+
+            <label class="check-row" id="holiday-row" hidden>
+              <input id="holiday-confirm" type="checkbox">
+              <span>
+                選択日は祝日ではありません。
+                こはるの平日クーポンは、祝日データ未連携のため自己確認が必要です。
+              </span>
+            </label>
+
+            <p id="slot-status" class="slot-status" role="status"></p>
+            <div id="slot-list" class="slots" role="group" aria-label="選択可能な開始時間"></div>
+            <p class="small">
+              火曜定休。施術後の清掃20分、休憩、サンプル予約との重複を考慮して表示します。
+            </p>
+          </fieldset>
+
+          <fieldset>
+            <legend>3. 過ごし方の希望</legend>
+            <div class="form-grid">
+              <label class="field">
+                ニックネーム〈任意〉
+                <input id="nickname" type="text" maxlength="30" placeholder="例：デモ利用者" autocomplete="off">
+              </label>
+
+              <label class="field">
+                会話の希望
+                <select id="conversation">
+                  <option>おまかせ</option>
+                  <option>相談はしっかり、その後は静かに</option>
+                  <option>会話も楽しみたい</option>
+                </select>
+              </label>
+
+              <label class="field">
+                スタイリングの説明
+                <select id="styling-help">
+                  <option>標準</option>
+                  <option>詳しく教えてほしい</option>
+                </select>
+              </label>
+
+              <label class="field">
+                香りへの希望
+                <select id="fragrance">
+                  <option>指定なし</option>
+                  <option>無香料を希望</option>
+                </select>
+              </label>
+
+              <label class="field wide">
+                仕上がり・その他の希望〈任意〉
+                <textarea
+                  id="request-note"
+                  maxlength="500"
+                  placeholder="デモ用の希望だけをご記入ください。実在の個人情報は入力しないでください。"
+                ></textarea>
+              </label>
+            </div>
+          </fieldset>
+          <p id="booking-error" class="error" role="alert"></p>
+        </div>
+
+        <div class="booking-total">
+          <div class="total-line">
+            <div>
+              <div class="small" id="total-label">税込合計</div>
+              <strong id="booking-price">¥11,000</strong>
+              <div class="small" id="booking-duration">所要時間 約90分</div>
+            </div>
+            <button class="button" type="submit">内容を確認する</button>
+          </div>
+          <p id="coupon-status" class="small" role="status" style="margin: 8px 0 0;"></p>
+        </div>
+      </form>
+    </div>
+
+    <div id="booking-confirmation" class="dialog-body" hidden>
+      <p class="notice">内容をご確認ください。次の操作でも実際の予約は行われません。</p>
+      <dl class="confirm-list" id="confirmation-list"></dl>
+      <div class="actions">
+        <button class="button secondary" id="back-to-editor" type="button">修正する</button>
+        <button class="button" id="complete-booking" type="button">デモ予約を完了する</button>
+      </div>
+    </div>
+
+    <div id="booking-success" class="dialog-body center" hidden>
+      <div class="success-mark" aria-hidden="true">✓</div>
+      <h3 id="success-title">デモ予約が完了しました</h3>
+      <p>
+        予約画面の体験はここまでです。<br>
+        実際の予約や相談の送信は行われておらず、<br>
+        店舗からの連絡や決済も発生しません。
+      </p>
+      <p class="small">入力した希望内容は消去しました。</p>
+      <div class="actions" style="justify-content: center;">
+        <button class="button secondary" id="restart-booking" type="button">最初から試す</button>
+        <button class="button" id="finish-close" type="button">サイトに戻る</button>
+      </div>
+    </div>
+  </dialog>
+
+  <noscript>
+    <p class="container notice">
+      メニュー、スタッフ詳細、デモ予約の表示にはJavaScriptを有効にしてください。
+    </p>
+  </noscript>
+
+  <script>
+    "use strict";
+
+    /*
+     * 単一HTMLで動作するデモです。
+     * 外部ライブラリ、API、送信処理、永続ストレージは使用しません。
+     *
+     * 任意の画像を以下へ配置するとプレースホルダーが写真に置き換わります。
+     * assets/salon-main.webp
+     * assets/staff-rena.webp
+     * assets/staff-koharu.webp
+     * assets/staff-mao.webp
+     * assets/staff-riko.webp
+     * assets/staff-yui.webp
+     * assets/style-h01.webp ～ assets/style-h10.webp
+     *
+     * スタッフ画像は縦3:4の全身写真を想定。
+     * object-fit: contain により、頭や靴を切り取りません。
+     */
+
+    const staff = [
+      {
+        id: "ST01",
+        name: "白石 怜奈",
+        short: "怜奈",
+        en: "RENA SHIRAISHI",
+        role: "店長 / スタイリスト歴8年",
+        image: "assets/staff-rena.webp",
+        color: "#ded9d1",
+        alt: "半袖シャツとスラックス姿の白石怜奈。右腰にシザーケースを着け、両手を軽く重ねて微笑む全身写真",
+        tags: ["似合わせ", "ショート・ボブ", "初めての相談"],
+        catch: "似合う理由も、次の楽しみ方も。",
+        description:
+          "髪のお悩みと普段の過ごし方を丁寧に伺います。担当者選びに迷う方もお任せください。今回のスタイルだけでなく、次回の目的に合うスタッフもご提案します。",
+        audience:
+          "男女を問わず、初めての方や、髪型・担当者選びに迷っている方。",
+        communication:
+          "落ち着いた会話と理由のわかる説明。無理にご自身の指名を勧めず、サロン全体から相性をご提案。",
+        hobby: "建築の写真集、静かな喫茶店巡り",
+        room: "ROOM 01 / グレージュとウォールナット",
+        menu: "印象設計カット",
+        duration: 90,
+        price: 11000,
+        discount: 9900,
+        menuText:
+          "服装、お仕事、朝の準備時間までヒアリング。シャンプー、カット、仕上げ、再現方法の説明まで行います。",
+        options: [
+          {
+            id: "O01",
+            name: "面接・撮影向け仕上げ",
+            duration: 15,
+            price: 1650
+          }
+        ]
+      },
+      {
+        id: "ST02",
+        name: "水瀬 こはる",
+        short: "こはる",
+        en: "KOHARU MINASE",
+        role: "スタイリスト / スタイリスト歴6年",
+        image: "assets/staff-koharu.webp",
+        color: "#e4e5d9",
+        alt: "低いシニヨンとセージグリーンの半袖姿の水瀬こはる。腰エプロンを着け、胸元より下で小さく片手ピースする全身写真",
+        tags: ["ヘッドスパ", "会話控えめ", "まとまり"],
+        catch: "お話ししない時間も、大切にします。",
+        description:
+          "静かに過ごしたい方も、気兼ねなくお越しください。お好みの力加減や会話量を確認しながら、丁寧なシャンプーとヘッドスパでお迎えします。",
+        audience:
+          "静かな時間を求める方、スパを定期的に楽しみたい方。男性のご指名も多いスタッフです。",
+        communication:
+          "必要な相談を済ませたあとは、会話を控えてゆっくり。前回のお好みも確認しながら施術します。",
+        hobby: "散歩、ハーブティー、植物の手入れ",
+        room: "ROOM 02 / 淡い木目と柔らかな照明",
+        menu: "静穏スパ＆カット",
+        duration: 100,
+        price: 13200,
+        discount: 11880,
+        menuText:
+          "シャンプー、ヘッドスパ、カット、仕上げ。スパ中は照明と会話を控え、カット時は適切な明るさに戻します。",
+        options: [
+          {
+            id: "O02",
+            name: "ヘッドスパ15分延長",
+            duration: 15,
+            price: 2200
+          },
+          {
+            id: "O03",
+            name: "保湿トリートメント",
+            duration: 15,
+            price: 3300
+          }
+        ]
+      },
+      {
+        id: "ST03",
+        name: "橘 真央",
+        short: "真央",
+        en: "MAO TACHIBANA",
+        role: "スタイリスト / スタイリスト歴4年",
+        image: "assets/staff-mao.webp",
+        color: "#dbe1e8",
+        alt: "キャラメル色のショートと青い半袖シャツ姿の橘真央。腰にシザーケースを着け、笑顔でダブルピースする全身写真",
+        tags: ["メンズ・短髪", "セット練習", "アニメ・ゲーム"],
+        catch: "髪の相談も、好きな作品の話も。",
+        description:
+          "アニメやゲームのお話も大歓迎！ 楽しく過ごしながら、明日のセットが楽になる髪型を一緒に考えます。ドライヤーやワックスの使い方も、実演しながらお伝えします。",
+        audience:
+          "セットが苦手な方、美容室に慣れていない方、趣味の話も楽しみたい方。男女ともに歓迎。",
+        communication:
+          "明るく率直。ネタバレの可否も確認しながら、好きな話題を一緒に楽しみます。静かに過ごす日も歓迎。",
+        hobby: "アニメ、ゲーム、ライブ、スニーカー",
+        room: "ROOM 03 / ネイビーとステンレス",
+        menu: "再現性カット＆セットレッスン",
+        duration: 80,
+        price: 8800,
+        discount: 7920,
+        menuText:
+          "シャンプー、カット、ドライとセットのレッスン。見て覚えるだけでなく、ご自身でも練習できます。",
+        options: [
+          {
+            id: "O04",
+            name: "ポイントパーマ",
+            duration: 45,
+            price: 5500
+          },
+          {
+            id: "O05",
+            name: "セット練習15分延長",
+            duration: 15,
+            price: 1650
+          }
+        ]
+      },
+      {
+        id: "ST04",
+        name: "久遠 璃子",
+        short: "璃子",
+        en: "RIKO KUON",
+        role: "スタイリスト / スタイリスト歴5年",
+        image: "assets/staff-riko.webp",
+        color: "#dedee3",
+        alt: "ラベンダーグレーのロブと腕まくりした黒シャツ姿の久遠璃子。ツールポーチを着け、控えめな片手ピースをする全身写真",
+        tags: ["デザインカラー", "履歴の相談", "工程を説明"],
+        catch: "その色に必要な工程を、きちんと。",
+        description:
+          "希望色と今の髪の状態を整理し、必要な工程、料金、髪への負担まで説明します。追加施術をしない場合の仕上がりや、段階的に近づける方法もご提案します。",
+        audience:
+          "鮮やかな色を楽しみたい方、過去のカラーに悩む方、別の視点での提案を聞きたい方。",
+        communication:
+          "普段は会話控えめ。残留色素や施術履歴など、カラーの説明にはしっかり時間をかけます。",
+        hobby: "写真展、配色のスクラップ、音楽",
+        room: "ROOM 04 / 白とチャコール",
+        menu: "パーソナルカラーデザイン",
+        duration: 150,
+        price: 22000,
+        discount: 19800,
+        menuText:
+          "カット、ブリーチなしのカラー、基本ケア、仕上げ。肩までの長さが基本料金。ブリーチや複雑な履歴は事前相談制です。",
+        options: [
+          {
+            id: "O06",
+            name: "インナー部分ブリーチ1回",
+            duration: 60,
+            price: 6600,
+            bleach: true
+          },
+          {
+            id: "O07",
+            name: "全体ブリーチ1回",
+            duration: 90,
+            price: 11000,
+            bleach: true
+          }
+        ]
+      },
+      {
+        id: "ST05",
+        name: "花村 結衣",
+        short: "結衣",
+        en: "YUI HANAMURA",
+        role: "スタイリスト / スタイリスト歴2年",
+        image: "assets/staff-yui.webp",
+        color: "#eee0da",
+        alt: "高いポニーテールと半袖カットソー、サロペット姿の花村結衣。左腰にシザーケースを着け、顔の横で片手ピースする全身写真",
+        tags: ["前髪・顔周り", "簡単アレンジ", "初めてでも話しやすい"],
+        catch: "小さな変化を、一緒に楽しみましょう。",
+        description:
+          "初めての方にも、気軽に相談していただける雰囲気を大切にしています。前髪や顔周りの小さな変化から、毎日が少し楽しくなるスタイルをご提案します。",
+        audience:
+          "長さを変えずに印象を変えたい方、結んだときもきれいに見せたい方。男性の初回指名も歓迎。",
+        communication:
+          "明るく親しみやすい接客。小さな変化を一緒に確認し、アレンジもわかりやすくお伝えします。",
+        hobby: "ヘアアレンジ研究、カフェ、写真",
+        room: "ROOM 05 / アイボリーとピンクベージュ",
+        menu: "顔周りデザイン＆アレンジ",
+        duration: 90,
+        price: 9900,
+        discount: 8910,
+        menuText:
+          "シャンプー、全体カット、前髪と顔周りの調整、簡単アレンジ。下ろした状態と結んだ状態を確認します。",
+        options: [
+          {
+            id: "O08",
+            name: "アレンジレッスン15分",
+            duration: 15,
+            price: 1650
+          },
+          {
+            id: "O09",
+            name: "外出向け追加ヘアセット",
+            duration: 30,
+            price: 3300
+          }
+        ]
+      }
+    ];
+
+    const styles = [
+      ["H01", "耳にかけてもきれいなコンパクトボブ", "ST01", "ショートボブ"],
+      ["H02", "清潔感のあるナチュラルショート", "ST01", "ショート"],
+      ["H03", "乾かしてまとまる柔らかミディアム", "ST02", "ミディアム"],
+      ["H04", "艶を楽しむナチュラルロング", "ST02", "ロング"],
+      ["H05", "朝のセットが決まるセンターパート", "ST03", "ショート"],
+      ["H06", "すっきりハンサムショート", "ST03", "ベリーショート"],
+      ["H07", "耳にかけて見せるラベンダーインナー", "ST04", "ボブ"],
+      ["H08", "くすみすぎないベージュカラー", "ST04", "ミディアム"],
+      ["H09", "結んでも可愛い顔周りレイヤー", "ST05", "ロング"],
+      ["H10", "休日のゆる巻きミディアム", "ST05", "ミディアム"]
+    ];
+
+    const reviews = [
+      {
+        user: "ユウ",
+        profile: "30代男性",
+        staffId: "ST01",
+        score: 5,
+        title: "次に相談したいことまで見つかりました",
+        text:
+          "仕事に合う髪型を相談しました。朝の準備時間まで聞いてもらえて安心。次にカラーをするなら、と別のスタッフも紹介してくれたので、お店全体に相談しやすい印象です。"
+      },
+      {
+        user: "mika",
+        profile: "30代女性",
+        staffId: "ST02",
+        score: 5,
+        title: "静かに過ごせるのがうれしい",
+        text:
+          "会話を控えめにしたいと先に伝えられて安心しました。力加減の確認も丁寧で、気を遣わず過ごせました。次もスパと一緒にお願いしたいです。"
+      },
+      {
+        user: "そうた",
+        profile: "20代男性",
+        staffId: "ST03",
+        score: 5,
+        title: "ゲームの話も、セットの練習も",
+        text:
+          "好きなゲームの話で盛り上がって、あっという間でした。ワックスの量も実際に教えてもらえて助かりました。続きの話をしに、また髪を整えに行きます。"
+      },
+      {
+        user: "nana",
+        profile: "20代女性",
+        staffId: "ST04",
+        score: 4,
+        title: "追加工程の理由がわかりました",
+        text:
+          "希望色に必要な下地と、今の髪では難しい部分を説明してもらえました。追加しない案も聞けたので納得して選べました。次回はもう少し時間に余裕を持って予約します。"
+      },
+      {
+        user: "あや",
+        profile: "20代女性",
+        staffId: "ST05",
+        score: 5,
+        title: "初めてでも希望を話しやすかった",
+        text:
+          "写真の雰囲気で選びましたが、実際の接客も明るくて安心しました。長さを変えずに顔周りがすっきり。結んだときの見え方まで確認してもらえました。"
+      }
+    ];
+
+    const $ = (selector) => document.querySelector(selector);
+    const money = (value) => "¥" + value.toLocaleString("ja-JP");
+    const findStaff = (id) => staff.find((person) => person.id === id) || staff[0];
+
+    function setupImageFallbacks(root = document) {
+      root.querySelectorAll(".media img").forEach((image) => {
+        const hideBrokenImage = () => {
+          image.hidden = true;
+          const fallback = image.parentElement.querySelector(".media-fallback");
+          if (fallback) {
+            fallback.removeAttribute("aria-hidden");
+          }
+        };
+
+        image.addEventListener("error", hideBrokenImage);
+
+        if (image.complete && image.naturalWidth === 0) {
+          hideBrokenImage();
+        }
+      });
+    }
+
+    function renderContent() {
+      $("#staff-list").innerHTML = staff.map((person) => `
+        <article class="card staff-card" id="staff-${person.id}">
+          <div class="media staff-photo" style="--room-color: ${person.color};">
+            <div class="media-fallback" aria-hidden="true">
+              <span>${person.en}</span>
+              <strong>${person.name}</strong>
+              <span>全身プロフィール写真 / 未配置</span>
+            </div>
+            <img src="${person.image}" alt="${person.alt}" loading="lazy">
+          </div>
+          <div class="card-body">
+            <p class="staff-role">${person.role}</p>
+            <h3 class="staff-name">${person.name}</h3>
+            <p class="staff-en">${person.en}</p>
+            <div class="tag-list">
+              ${person.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+            </div>
+            <p class="staff-catch">${person.catch}</p>
+            <p class="staff-description">${person.description}</p>
+            <details class="staff-detail">
+              <summary>接客・得意分野を詳しく見る</summary>
+              <dl>
+                <dt>こんな方に</dt>
+                <dd>${person.audience}</dd>
+                <dt>接客スタイル</dt>
+                <dd>${person.communication}</dd>
+                <dt>好きなこと</dt>
+                <dd>${person.hobby}</dd>
+                <dt>担当個室</dt>
+                <dd>${person.room}</dd>
+              </dl>
+            </details>
+            <button class="button secondary full" type="button" data-book="${person.id}">
+              ${person.short}のコースで空席確認
+            </button>
+          </div>
+        </article>
+      `).join("");
+
+      $("#menu-list").innerHTML = staff.map((person) => `
+        <article class="card menu-card" data-menu-staff="${person.id}">
+          <div class="tag-list">
+            <span class="tag">${person.name} 担当</span>
+            <span class="tag">${person.duration}分${person.id === "ST04" ? "〜" : ""}</span>
+            <span class="tag">性別を問わず予約可</span>
+          </div>
+          <h3>${person.menu}</h3>
+          <p>${person.menuText}</p>
+          <details class="staff-detail">
+            <summary>追加できるオプション</summary>
+            <ul>
+              ${person.options.map((option) => `
+                <li>
+                  ${option.name}：
+                  ＋${money(option.price)}${option.bleach ? "〜" : ""}
+                  ／＋${option.duration}分${option.bleach ? "〜" : ""}
+                </li>
+              `).join("")}
+            </ul>
+          </details>
+          <div class="menu-bottom">
+            <div class="price">
+              ${money(person.price)}${person.id === "ST04" ? "〜" : ""}
+              <small>税込</small>
+            </div>
+            <button class="button" type="button" data-book="${person.id}">
+              このコースで空席を確認
+            </button>
+          </div>
+        </article>
+      `).join("");
+
+      $("#coupon-list").innerHTML = staff.map((person) => `
+        <article class="card coupon">
+          <div class="tag-list">
+            <span class="tag">新規${person.id === "ST02" ? "・平日限定" : ""}</span>
+            <span class="tag">${person.short}指名</span>
+          </div>
+          <h3>${person.menu}</h3>
+          <p class="small">${person.duration}分${person.id === "ST04" ? "〜・ブリーチ別" : "・シャンプー込み"}</p>
+          <div class="price">
+            <div class="old-price">通常 ${money(person.price)}${person.id === "ST04" ? "〜" : ""}</div>
+            ${money(person.discount)}${person.id === "ST04" ? "〜" : ""}
+          </div>
+          <button class="button secondary full" type="button" data-book="${person.id}" data-coupon="first">
+            このクーポンを選ぶ
+          </button>
+        </article>
+      `).join("");
+
+      $("#style-list").innerHTML = styles.map(([id, title, staffId, length]) => {
+        const person = findStaff(staffId);
+        return `
+          <article class="card style-card">
+            <div class="media style-photo" style="--room-color: ${person.color};">
+              <div class="media-fallback" aria-hidden="true">
+                <span>STYLE ${id.slice(1)}</span>
+                <span>${length}</span>
+                <span>イメージ画像 / 未配置</span>
+              </div>
+              <img
+                src="assets/style-${id.toLowerCase()}.webp"
+                alt="${title}の生成スタイルイメージ"
+                loading="lazy"
+              >
+            </div>
+            <div class="card-body">
+              <h3>${title}</h3>
+              <p>${length} / ${person.name}</p>
+              <a class="small" href="#staff-${staffId}">担当者を見る</a>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      $("#review-list").innerHTML = reviews.map((review) => `
+        <article class="card review-card">
+          <div class="review-meta">
+            <span>${review.user} / ${review.profile}</span>
+            <span>架空の口コミ</span>
+          </div>
+          <span class="stars" aria-label="5点満点中${review.score}点">
+            ${"★".repeat(review.score)}${"☆".repeat(5 - review.score)}
+          </span>
+          <h3>${review.title}</h3>
+          <span class="tag">担当：${findStaff(review.staffId).name}</span>
+          <blockquote>${review.text}</blockquote>
+        </article>
+      `).join("");
+
+      $("#booking-staff").innerHTML = staff.map((person) => `
+        <option value="${person.id}">
+          ${person.name} / ${person.menu}
+        </option>
+      `).join("") + `
+        <option value="unassigned">初回担当おまかせ / 怜奈の印象設計カット</option>
+      `;
+
+      setupImageFallbacks();
+    }
+
+    document.querySelectorAll("[data-filter]").forEach((button) => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll("[data-filter]").forEach((item) => {
+          item.setAttribute("aria-pressed", String(item === button));
+        });
+
+        document.querySelectorAll("[data-menu-staff]").forEach((card) => {
+          card.hidden = button.dataset.filter !== "all"
+            && card.dataset.menuStaff !== button.dataset.filter;
+        });
+      });
+    });
+
+    const dialog = $("#booking-dialog");
+    let selectedTime = "";
+    let availableTimes = [];
+    let previousFocus = null;
+    let pendingConsultation = false;
+
+    function localDateString(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function parseLocalDate(value) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return null;
+      }
+
+      const [year, month, day] = value.split("-").map(Number);
+      const date = new Date(year, month - 1, day);
+
+      return localDateString(date) === value ? date : null;
+    }
+
+    function formatTime(minutes) {
+      return `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+    }
+
+    function selectedStaff() {
+      return findStaff($("#booking-staff").value);
+    }
+
+    function selectedOptions() {
+      const ids = Array.from(
+        document.querySelectorAll("#option-list input:checked"),
+        (input) => input.value
+      );
+
+      return selectedStaff().options.filter((option) => ids.includes(option.id));
+    }
+
+    function updateCourse() {
+      const person = selectedStaff();
+      const isColor = person.id === "ST04";
+
+      $("#length-field").hidden = !isColor;
+      $("#consultation-row").hidden = !isColor;
+      $("#consultation-first").checked = false;
+      $("#hair-length").value = "0";
+      $("#holiday-confirm").checked = false;
+      $("#course-description").textContent = person.menuText;
+
+      $("#option-list").innerHTML = person.options.map((option) => `
+        <label class="check-row">
+          <input
+            type="checkbox"
+            value="${option.id}"
+            data-bleach="${Boolean(option.bleach)}"
+          >
+          <span>
+            ${option.name}：
+            ＋${money(option.price)}${option.bleach ? "〜" : ""}
+            ／＋${option.duration}分${option.bleach ? "〜" : ""}
+          </span>
+        </label>
+      `).join("");
+
+      refreshBooking();
+    }
+
+    function getBookingState() {
+      const person = selectedStaff();
+      const options = selectedOptions();
+      const date = parseLocalDate($("#booking-date").value);
+      const isWeekday = date !== null && date.getDay() >= 1 && date.getDay() <= 5;
+      const wantsCoupon = $("#coupon-choice").value === "first";
+      const isNew = $("#visit-type").value === "new";
+
+      const couponValid = wantsCoupon
+        && isNew
+        && (
+          person.id !== "ST02"
+          || (isWeekday && $("#holiday-confirm").checked)
+        );
+
+      const lengthPrice = person.id === "ST04"
+        ? Number($("#hair-length").value)
+        : 0;
+
+      const basePrice = couponValid ? person.discount : person.price;
+      const price = basePrice
+        + lengthPrice
+        + options.reduce((sum, option) => sum + option.price, 0);
+
+      const duration = person.duration
+        + options.reduce((sum, option) => sum + option.duration, 0);
+
+      const consultation = person.id === "ST04"
+        && (
+          $("#consultation-first").checked
+          || options.some((option) => option.bleach)
+        );
+
+      return {
+        person,
+        options,
+        date,
+        wantsCoupon,
+        isNew,
+        isWeekday,
+        couponValid,
+        price,
+        duration,
+        consultation,
+        lengthPrice
+      };
+    }
+
+    function getAvailableTimes(state) {
+      if (!state.date || state.date.getDay() === 2) {
+        return [];
+      }
+
+      const value = $("#booking-date").value;
+      if (value < $("#booking-date").min || value > $("#booking-date").max) {
+        return [];
+      }
+
+      /*
+       * デモ用の勤務枠：
+       * 10:00〜20:00、休憩60分、サンプル予約60分。
+       * 予約済み枠にはその施術後の清掃時間も含めています。
+       * 新規に選ぶ施術にも清掃20分を加えて重複判定します。
+       */
+      const index = staff.findIndex((person) => person.id === state.person.id);
+      const breakStart = 12 * 60 + (index % 3) * 30;
+      const sampleStart = (state.date.getDate() % 2 === 0 ? 16 : 15) * 60;
+
+      const occupied = [
+        [breakStart, breakStart + 60],
+        [sampleStart, sampleStart + 80]
+      ];
+
+      const times = [];
+      const occupiedDuration = state.duration + 20;
+
+      for (let start = 10 * 60; start + occupiedDuration <= 20 * 60; start += 10) {
+        const end = start + occupiedDuration;
+        const overlaps = occupied.some(([from, to]) => start < to && end > from);
+
+        if (!overlaps) {
+          times.push(formatTime(start));
+        }
+      }
+
+      return times;
+    }
+
+    function renderSlots(state) {
+      const slotList = $("#slot-list");
+      slotList.replaceChildren();
+
+      $("#date-legend").textContent = state.consultation
+        ? "2. 希望日を選ぶ〈相談リクエスト〉"
+        : "2. 日時を選ぶ〈空席サンプル〉";
+
+      $("#date-label").textContent = state.consultation
+        ? "施術を希望する日〈相談時の参考〉"
+        : "来店希望日";
+
+      if (!state.date) {
+        $("#slot-status").textContent = "日付を選んでください。";
+        availableTimes = [];
+        selectedTime = "";
+        return;
+      }
+
+      const dateValue = $("#booking-date").value;
+      if (dateValue < $("#booking-date").min || dateValue > $("#booking-date").max) {
+        $("#slot-status").textContent = "選択可能な期間内の日付を指定してください。";
+        availableTimes = [];
+        selectedTime = "";
+        return;
+      }
+
+      if (state.date.getDay() === 2) {
+        $("#slot-status").textContent = "火曜日は定休日です。別の日付をお選びください。";
+        availableTimes = [];
+        selectedTime = "";
+        return;
+      }
+
+      if (state.consultation) {
+        $("#slot-status").textContent =
+          "この希望日は相談用の参考情報です。施術時刻と対応可否は未確定として扱います。";
+        availableTimes = [];
+        selectedTime = "";
+        return;
+      }
+
+      availableTimes = getAvailableTimes(state);
+
+      if (!availableTimes.includes(selectedTime)) {
+        selectedTime = "";
+      }
+
+      if (availableTimes.length === 0) {
+        $("#slot-status").textContent =
+          "選択した施術時間を確保できるサンプル枠がありません。別の日付や内容をお選びください。";
+        return;
+      }
+
+      $("#slot-status").textContent = selectedTime
+        ? `${selectedTime}開始を選択中です。すべてサンプル空席です。`
+        : `${availableTimes.length}件のサンプル空席があります。開始時間をお選びください。`;
+
+      availableTimes.forEach((time) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "slot";
+        button.textContent = `${time} 空き`;
+        button.setAttribute("aria-pressed", String(time === selectedTime));
+
+        button.addEventListener("click", () => {
+          selectedTime = time;
+          slotList.querySelectorAll("button").forEach((item) => {
+            item.setAttribute("aria-pressed", String(item === button));
+          });
+          $("#slot-status").textContent =
+            `${time}開始を選択中です。すべてサンプル空席です。`;
+          $("#booking-error").textContent = "";
+        });
+
+        slotList.append(button);
+      });
+    }
+
+    function refreshBooking() {
+      const person = selectedStaff();
+
+      $("#holiday-row").hidden = !(
+        person.id === "ST02"
+        && $("#coupon-choice").value === "first"
+        && $("#visit-type").value === "new"
+      );
+
+      const state = getBookingState();
+
+      $("#consultation-notice").hidden = !state.consultation;
+      $("#total-label").textContent = person.id === "ST04"
+        ? "税込概算"
+        : "税込合計";
+      $("#booking-price").textContent =
+        money(state.price) + (person.id === "ST04" ? "〜" : "");
+      $("#booking-duration").textContent =
+        `所要時間 約${state.duration}分${person.id === "ST04" ? "〜" : ""}`;
+
+      if (!state.wantsCoupon) {
+        $("#coupon-status").textContent = "通常料金を表示しています。";
+      } else if (!state.isNew) {
+        $("#coupon-status").textContent =
+          "初回限定クーポンは適用できません。通常料金を表示しています。";
+      } else if (person.id === "ST02" && !state.isWeekday) {
+        $("#coupon-status").textContent =
+          "こはるのクーポンは平日限定です。通常料金を表示しています。";
+      } else if (person.id === "ST02" && !$("#holiday-confirm").checked) {
+        $("#coupon-status").textContent =
+          "祝日でないことの確認後に割引を適用します。現在は通常料金です。";
+      } else {
+        $("#coupon-status").textContent =
+          "初回来店クーポン適用中。オプション・長さ料金は割引対象外です。";
+      }
+
+      renderSlots(state);
+      $("#booking-error").textContent = "";
+    }
+
+    function setScreen(screen) {
+      $("#booking-editor").hidden = screen !== "editor";
+      $("#booking-confirmation").hidden = screen !== "confirmation";
+      $("#booking-success").hidden = screen !== "success";
+
+      $("#booking-title").textContent = {
+        editor: "デモ予約",
+        confirmation: "デモ予約内容の確認",
+        success: "デモ体験の完了"
+      }[screen];
+
+      dialog.scrollTop = 0;
+
+      if (screen === "confirmation") {
+        $("#back-to-editor").focus();
+      } else if (screen === "success") {
+        $("#finish-close").focus();
+      }
+    }
+
+    function initializeBooking(staffId = "ST01", coupon = "none", unassigned = false) {
+      $("#booking-form").reset();
+      $("#confirmation-list").replaceChildren();
+
+      selectedTime = "";
+      availableTimes = [];
+      pendingConsultation = false;
+      $("#booking-error").textContent = "";
+
+      const minimum = new Date();
+      minimum.setDate(minimum.getDate() + 1);
+
+      const maximum = new Date();
+      maximum.setDate(maximum.getDate() + 60);
+
+      const defaultDate = new Date(minimum);
+      if (defaultDate.getDay() === 2) {
+        defaultDate.setDate(defaultDate.getDate() + 1);
+      }
+
+      $("#booking-date").min = localDateString(minimum);
+      $("#booking-date").max = localDateString(maximum);
+      $("#booking-date").value = localDateString(defaultDate);
+      $("#booking-staff").value = unassigned ? "unassigned" : findStaff(staffId).id;
+      $("#coupon-choice").value = coupon;
+
+      updateCourse();
+      setScreen("editor");
+    }
+
+    function openBooking(trigger) {
+      previousFocus = trigger;
+
+      initializeBooking(
+        trigger.dataset.book || "ST01",
+        trigger.dataset.coupon || "none",
+        trigger.dataset.unassigned === "true"
+      );
+
+      dialog.showModal();
+      document.body.style.overflow = "hidden";
+      $("#booking-staff").focus();
+    }
+
+    function clearBookingData() {
+      $("#booking-form").reset();
+      $("#confirmation-list").replaceChildren();
+      $("#booking-error").textContent = "";
+      selectedTime = "";
+      availableTimes = [];
+      pendingConsultation = false;
+    }
+
+    function closeBooking() {
+      dialog.close();
+    }
+
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-book]");
+      if (trigger) {
+        openBooking(trigger);
+      }
+    });
+
+    $("#booking-staff").addEventListener("change", updateCourse);
+
+    $("#option-list").addEventListener("change", (event) => {
+      const input = event.target;
+
+      if (input.matches('input[data-bleach="true"]') && input.checked) {
+        document.querySelectorAll('#option-list input[data-bleach="true"]').forEach((other) => {
+          if (other !== input) {
+            other.checked = false;
+          }
+        });
+      }
+
+      refreshBooking();
+    });
+
+    [
+      "#visit-type",
+      "#coupon-choice",
+      "#hair-length",
+      "#consultation-first",
+      "#holiday-confirm"
+    ].forEach((selector) => {
+      $(selector).addEventListener("change", refreshBooking);
+    });
+
+    $("#booking-date").addEventListener("change", () => {
+      selectedTime = "";
+      $("#holiday-confirm").checked = false;
+      refreshBooking();
+    });
+
+    function appendConfirmationRow(label, value) {
+      const row = document.createElement("div");
+      row.className = "info-row";
+
+      const term = document.createElement("dt");
+      term.textContent = label;
+
+      const description = document.createElement("dd");
+      description.textContent = value;
+
+      row.append(term, description);
+      $("#confirmation-list").append(row);
+    }
+
+    $("#booking-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!$("#booking-form").reportValidity()) {
+        return;
+      }
+
+      const state = getBookingState();
+
+      if (!state.date || state.date.getDay() === 2) {
+        $("#booking-error").textContent = "営業日の希望日を選択してください。";
+        $("#booking-date").focus();
+        return;
+      }
+
+      if (!state.consultation && !getAvailableTimes(state).includes(selectedTime)) {
+        $("#booking-error").textContent = "選択可能な開始時間を選んでください。";
+        $("#slot-list button")?.focus();
+        return;
+      }
+
+      pendingConsultation = state.consultation;
+      $("#confirmation-list").replaceChildren();
+
+      const dateText = state.date.toLocaleDateString("ja-JP", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "short"
+      });
+
+      appendConfirmationRow(
+        "受付区分",
+        state.consultation ? "事前相談リクエスト〈デモ〉" : "施術予約〈デモ〉"
+      );
+
+      appendConfirmationRow(
+        "担当",
+        $("#booking-staff").value === "unassigned"
+          ? "初回担当おまかせ／白石怜奈が対応"
+          : state.person.name
+      );
+
+      appendConfirmationRow("コース", state.person.menu);
+      appendConfirmationRow(
+        state.consultation ? "施術希望日" : "来店日時",
+        state.consultation ? `${dateText}／時刻未確定` : `${dateText} ${selectedTime}開始`
+      );
+
+      appendConfirmationRow(
+        "所要時間",
+        `約${state.duration}分${state.person.id === "ST04" ? "〜" : ""}`
+      );
+
+      appendConfirmationRow(
+        "オプション",
+        state.options.length
+          ? state.options.map((option) => option.name).join("\n")
+          : "なし"
+      );
+
+      if (state.person.id === "ST04") {
+        appendConfirmationRow(
+          "長さ料金",
+          $("#hair-length").selectedOptions[0].textContent
+        );
+      }
+
+      appendConfirmationRow(
+        "クーポン",
+        state.couponValid ? "初回来店クーポン適用" : "適用なし／通常料金"
+      );
+
+      appendConfirmationRow(
+        state.person.id === "ST04" ? "税込概算" : "税込合計",
+        money(state.price) + (state.person.id === "ST04" ? "〜／施術前に確認" : "")
+      );
+
+      appendConfirmationRow("ニックネーム", $("#nickname").value.trim() || "入力なし");
+      appendConfirmationRow("会話の希望", $("#conversation").value);
+      appendConfirmationRow("セットの説明", $("#styling-help").value);
+      appendConfirmationRow("香りの希望", $("#fragrance").value);
+      appendConfirmationRow("その他の希望", $("#request-note").value.trim() || "指定なし");
+
+      $("#complete-booking").textContent = state.consultation
+        ? "相談リクエストのデモを完了"
+        : "デモ予約を完了する";
+
+      setScreen("confirmation");
+    });
+
+    $("#back-to-editor").addEventListener("click", () => {
+      setScreen("editor");
+      $("#booking-staff").focus();
+    });
+
+    $("#complete-booking").addEventListener("click", () => {
+      const wasConsultation = pendingConsultation;
+
+      clearBookingData();
+
+      $("#success-title").textContent = wasConsultation
+        ? "相談リクエストのデモが完了しました"
+        : "デモ予約が完了しました";
+
+      setScreen("success");
+    });
+
+    $("#restart-booking").addEventListener("click", () => {
+      initializeBooking();
+      $("#booking-staff").focus();
+    });
+
+    $("#close-dialog").addEventListener("click", closeBooking);
+    $("#finish-close").addEventListener("click", closeBooking);
+
+    dialog.addEventListener("close", () => {
+      clearBookingData();
+      document.body.style.overflow = "";
+
+      if (previousFocus && document.contains(previousFocus)) {
+        previousFocus.focus();
+      }
+    });
+
+    renderContent();
+  </script>
+</body>
+</html>
